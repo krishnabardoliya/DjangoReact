@@ -7,13 +7,6 @@ __pycache__
 node_modules
 npm-debug.log
 *.DS_Store
-/assets/bundles/*
-/assets/webpack_bundles/*
-/webpack-stats.json
 /jquery-webpack-stats.json
-/venv/
-/env/
-/output/
-/cache/
 *.py[cod]
 *$py.class
