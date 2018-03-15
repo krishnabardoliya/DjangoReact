@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
 import { add_name } from '../actions';
 
-class App extends Component {
+class Todo extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -38,7 +38,8 @@ class App extends Component {
   render() {
     console.log('this.props',this.props);
     return (
-      <div className="App">
+      <div className="Todo">
+      
         <div className="jumbotron" >
           
         <div className="form-inline">
@@ -69,4 +70,4 @@ function mapStateToProps(state){
   return({name:state})
 } 
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(Todo);
