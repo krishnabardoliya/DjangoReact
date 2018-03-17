@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
-import { add_name } from '../actions';
+import { register } from "../actions";
 
 class Todo extends Component {
   constructor(props){
@@ -13,7 +13,7 @@ class Todo extends Component {
 
   display()
   {
-    this.props.add_name(this.state.text);
+    this.props.register.register.add_name(this.state.text);
   }
 
   display1(){
@@ -63,7 +63,7 @@ class Todo extends Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({add_name},dispatch);
+  return bindActionCreators({register},dispatch);
 } 
 
 function mapStateToProps(state){

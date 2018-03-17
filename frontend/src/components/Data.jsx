@@ -1,41 +1,61 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { get_user } from '../actions';
+import { register } from "../actions";
+import { Redirect } from 'react-router'
+
 
 class Data extends Component {
-    componentDidMount() {
-        this.props.get_user();
-    }
-    render() {
-        console.log(this.props.regs)
-        const name=this.props.regs;
-        
-        return (
-           <div className="Data">
-            
-          
-                <div className="jumbotron">
-                    <h1>Users </h1>
-                    
-                </div>
 
-         
-           
-         </div>
-        )
+    componentDidMount() {
+        this.props.fetchUser();
+    }
+
+    render() {
+        const token = localStorage.token
+        const regs = this.props.regs
+        return (
+            <div className="container">
+            {token ? <div>
+                        {regs.map((reg, index) => (
+                            
+                            <span key={index}>
+                            <ul>
+                                    
+                                      <h2>  Username  </h2>
+                                    
+                                 
+                                    
+                                    {reg.map((r, id) => (
+                                       
+                                            <h5 key={id}>{r.username}</h5>
+                                      
+                                    ))}
+                                    </ul>     
+                            </span>
+                            
+                        ))}
+                        </div>
+            
+            :
+                        
+                        <Redirect to="/login" /> 
+                
+            }
+            </div>
+        );
     }
 }
 
-function mapStateToProps(state){
+const mapStateToProps = state => {
     return {
-        regs: state.name,
+        regs: state.reg,
     }
-  } 
+}
 
   const mapDispatchToProps = dispatch => {
     return {
-        get_user: () => {
-            dispatch(get_user());
+        fetchUser: () => {
+            dispatch(register.fetchUser());
         },
         
     }

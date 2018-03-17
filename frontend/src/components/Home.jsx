@@ -1,96 +1,121 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Alert } from 'react-bootstrap';
-import { add_user } from '../actions';
+//import { Alert } from 'react-bootstrap';
+import { register } from "../actions";
+import { Redirect } from 'react-router'
 
 class Home extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-          username:'',
-          password:'',
-          cpassword:'',
-          email:'',
-        }
-      }
-
-    display()
-  {
-    this.props.add_user(this.state.username,this.state.password,this.state.email);
+  state = {
+      username: "",
+      password: "",
+      cnfpassword: "",
+      email: "",
   }
 
-  display1(){
-    const {name}=this.props;
-    return(
-      <ul className="list-groups col-sm-4">
-        {
-          name.map(name=> {
-            return(
-              <div>  
-              <li className="list-group-item">
-                <div>
-                  { name.username } <br/> { name.email } <br/> { name.password }
-                </div>
-              </li>
-              </div>
-            )
-          })
-        }
-      </ul>
-    )
-  }
+  handleSubmit = (e) => {
+      e.preventDefault();
+      this.state.password === this.state.cnfpassword ?
+          this.state.password.length >= 8 ?
+              this.props.addUser(this.state.username, this.state.password, this.state.email)
+              :
+              alert("Use at least 8 characters.")
+          :
+          alert("Password And Confirm Password Are Different") 
 
-    render() {
-        
-        return (
-           <div className="Home">
       
-           <div className="jumbotron" >
-            <Alert bsStyle="warning">
-                <strong>All fields are required!</strong>
-            </Alert>
-             
-           <div className="form-inline">
-             <div className="form-group">
-             <br/><br/><br/><br/>
-           username:
-           <input className="form-control" type="text" name="username" placeholder="enter your username" onChange={event => this.setState({username:event.target.value})} />
-           <br/>
-           email id:
-           <input className="form-control" type="email" name="email" placeholder="enter your email id" onChange={event => this.setState({email:event.target.value})} />
-           <br/>
-           password
-           <input className="form-control" type="password" name="password" placeholder="enter your password" onChange={event => this.setState({password:event.target.value})} />
-           <br/>
+      
+      this.setState({
+          nameUser:"",
+          username: "",
+          password: "",
+          email: "",
+          cnfpassword: "",
+      });
+  }
 
-           <button type="button" className="btn btn-success" onClick={()=> this.display()} >register me</button>
-           <br/><br/>
-   
-           
-         </div>
-         </div>  
-         </div>
-         
-         {this.display1()}
-            
-         </div>
-        )
-    }
+
+  render() {
+      const token = localStorage.token
+      return (
+          <div className="container">
+              
+              {token ?
+                  <div className="jumbotron">
+                      <h1>You already registerd</h1>
+                      
+                <Redirect to="/login" />
+      
+                  </div>
+                  :
+                  <div >
+                      <h1>Register</h1>
+                      <br />
+                      <form onSubmit={this.handleSubmit}>
+                          <div className="form-group">
+                              <label>User Name</label>
+                             
+                              <input
+                                  name="nameUser"
+                                  type="text"
+                                  value={this.state.nameUser}
+                                  onChange={(e) => this.setState({ username: e.target.value })} />
+                          </div>
+                          <div className="form-group">
+                              <label>Email</label>
+                             
+                              <input
+                                  name="email"
+                                  type="email"
+                                  value={this.state.email}
+                                  onChange={(e) => this.setState({ email: e.target.value })} />
+                          </div>
+                          <div className="form-group">
+                              <label>Password</label>
+                              
+                              <input
+                                  name="password"
+                                  type="password"
+                                  value={this.state.password}
+                                  onChange={(e) => this.setState({ password: e.target.value })} />
+                          </div>
+
+                          <div className="form-group">
+                              <label>Confirm Password</label>
+                             
+                              <input
+                                  name="cnfpassword"
+                                  type="password"
+                                  value={this.state.cnfpassword}
+                                  onChange={(e) => this.setState({ cnfpassword: e.target.value })} />
+                          </div>
+
+                          <button className="btn btn-success" type="submit" value="Submit">Submit</button>
+
+                      </form>
+                  </div>
+              }
+          </div>
+      );
+  }
+
 }
 
+const mapStateToProps = state => {
+  return {
+      regs: state.reg,
+  }
+}
 
 const mapDispatchToProps = dispatch => {
-    return {
-        add_user: (username, password, email) => {
-            dispatch(add_user(username, password, email));
-        },
-    }
+  return {
+      addUser: (username, password, email) => {
+          dispatch(register.addUser(username, password, email));
+        
+      },
+      
+  }
 
 }
-  
-  function mapStateToProps(state){
-    return({name:state})
-  } 
 
-  export default connect(mapStateToProps,mapDispatchToProps)(Home);
+export default connect(mapStateToProps,mapDispatchToProps)(Home);
