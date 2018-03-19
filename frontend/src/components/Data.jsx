@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { register } from "../actions";
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 
 
 class Data extends Component {

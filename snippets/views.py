@@ -16,7 +16,7 @@ from rest_framework.decorators import api_view
 
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
-from snippets.serializers import UserSerializer
+from snippets.serializers import UserSerializer,ProfileSerializer
 from django.contrib.auth.models import User
 from rest_framework import views, serializers, status
 from rest_framework.response import Response
@@ -25,6 +25,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse
+from .models import Profile as ProfileModel
 import json
 import jwt
 from django.contrib.auth import authenticate, logout
@@ -37,6 +38,13 @@ class Profile(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = [permissions.AllowAny, ]
     serializer_class = UserSerializer
+
+
+class ProfileP(viewsets.ModelViewSet):
+    print("in views")
+    queryset = ProfileModel.objects.all()
+    permission_classes = [permissions.AllowAny, ]
+    serializer_class = ProfileSerializer
 
 
 @api_view(["POST"])
@@ -55,4 +63,18 @@ def login(request):
                 #print(request.user.email)
                 return HttpResponse({'status':'true','message':'login successfull'}, status=200)
     return HttpResponse({'status':'false','message':'fail login'}, status=400)
+
+
+'''@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def addprofile(request):
+    print(request.method)
+    print("here")
+    if request.method == "POST":
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)'''
+        
+            
+    
 

@@ -17,6 +17,7 @@ class Login extends Component {
 
     handleSubmit=(e) => {
         e.preventDefault();
+        console.log(this.state.username,this.state.password);
         this.props.loginUser(this.state.username,this.state.password);
         console.log("in handle submit",this.props.username)
     }
@@ -36,13 +37,14 @@ class Login extends Component {
                 <div >
                     <h1>Log In</h1>
                     <br />
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit} method="post">
                         <div className="form-group">
                             <label>User Name</label>
                            
                             <input
                                 name="nameUser"
                                 type="text"
+                                required="required"
                                 value={this.state.username}
                                 onChange={(e) => this.setState({ username: e.target.value })} />
                         </div>
@@ -53,6 +55,7 @@ class Login extends Component {
                             <input
                                 name="password"
                                 type="password"
+                                required="required"
                                 value={this.state.password}
                                 onChange={(e) => this.setState({ password: e.target.value })} />
                         </div>

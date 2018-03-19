@@ -30,6 +30,25 @@ export const addUser = (username, password, email) => {
                 })
             })
     }
+}
+
+
+export const addProfile = (firstname, lastname, age) => {
+    return dispatch => {
+        let headers = { "Content-Type": "application/json" };
+        let body = JSON.stringify({ firstname, lastname, age });
+        console.log("in action",body)
+        return fetch("/api/profile/", { headers, method: "POST", body })
+            .then(res => res.json())
+            .then(note => {
+                return dispatch({
+                    type: 'ADD_PROFILE',
+                    firstname,
+                    lastname,
+                    age
+                })
+            })
+    }    
     /*
     return {
         type: 'ADD_USER',
@@ -46,7 +65,7 @@ export const fetchUser = () => {
         return fetch("/api/user/", { headers, })
             .then(res => res.json())
             .then(data => {
-                //console.log(data)
+                console.log(data)
                 return dispatch({
                     type: 'FETCH_USER',
                     data
@@ -78,4 +97,7 @@ export const loginUser = (username, password) => {
             });
     }
 }
+
+
+
 

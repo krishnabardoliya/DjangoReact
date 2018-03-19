@@ -6,6 +6,10 @@ import { Redirect } from 'react-router'
 
 class Home extends Component {
 
+    componentDidMount() {
+        this.props.fetchUser();
+    }
+
   state = {
       username: "",
       password: "",
@@ -15,6 +19,22 @@ class Home extends Component {
 
   handleSubmit = (e) => {
       e.preventDefault();
+
+
+      console.log("in submit",this.props.regs)
+      console.log("length",this.props.regs[0].length)
+      for (var i = 0; i < this.props.regs[0].length; i++) { 
+            if(this.props.regs[0][i]['username']== this.state.username){
+                alert("username already exist try another")
+            }
+            if(this.props.regs[0][i]['email']== this.state.email){
+                alert("email already exist try another")
+            }
+        }
+      
+      console.log("index0",this.props.regs[0][1]['username'])
+      
+      
       this.state.password === this.state.cnfpassword ?
           this.state.password.length >= 8 ?
               this.props.addUser(this.state.username, this.state.password, this.state.email)
@@ -37,6 +57,8 @@ class Home extends Component {
 
   render() {
       const token = localStorage.token
+      const regs = this.props.regs
+      //console.log("data",this.props)
       return (
           <div className="container">
               
@@ -51,13 +73,14 @@ class Home extends Component {
                   <div >
                       <h1>Register</h1>
                       <br />
-                      <form onSubmit={this.handleSubmit}>
+                      <form onSubmit={this.handleSubmit} method="post">
                           <div className="form-group">
                               <label>User Name</label>
                              
                               <input
                                   name="nameUser"
                                   type="text"
+                                  required="required"
                                   value={this.state.nameUser}
                                   onChange={(e) => this.setState({ username: e.target.value })} />
                           </div>
@@ -67,6 +90,7 @@ class Home extends Component {
                               <input
                                   name="email"
                                   type="email"
+                                  required="required"
                                   value={this.state.email}
                                   onChange={(e) => this.setState({ email: e.target.value })} />
                           </div>
@@ -76,6 +100,7 @@ class Home extends Component {
                               <input
                                   name="password"
                                   type="password"
+                                  required="required"
                                   value={this.state.password}
                                   onChange={(e) => this.setState({ password: e.target.value })} />
                           </div>
@@ -86,6 +111,7 @@ class Home extends Component {
                               <input
                                   name="cnfpassword"
                                   type="password"
+                                  required="required"
                                   value={this.state.cnfpassword}
                                   onChange={(e) => this.setState({ cnfpassword: e.target.value })} />
                           </div>
@@ -113,6 +139,9 @@ const mapDispatchToProps = dispatch => {
           dispatch(register.addUser(username, password, email));
         
       },
+      fetchUser: () => {
+        dispatch(register.fetchUser());
+    },
       
   }
 

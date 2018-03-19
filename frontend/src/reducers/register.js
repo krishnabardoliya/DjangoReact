@@ -12,9 +12,13 @@ export default function reg(state = initialState, action) {
             return [...state, action.data ]
         case 'ADD_USER':
             return [...state, { 'username': action.username, 'password': action.password, 'email': action.email }];
+        case 'ADD_PROFILE':
+            return [...state, { 'firstname': action.firstname, 'lastname': action.lastname, 'age': action.age }];
+               
         case 'LOGIN_USER':
             console.log("in reducers",action.resp.config.data)
-            action.resp.status === 200 ? localStorage.setItem('token', action.resp.config.data) : console.log('fail') 
+            action.resp.status === 200 ? localStorage.setItem('token', action.resp.config.data) : console.log('fail')
+            window.location.href="/"
             break   
         default:
             return state;

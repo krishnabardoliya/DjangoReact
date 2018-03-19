@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
+from snippets.models import Profile
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -20,3 +21,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password')
+
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    firstname = serializers.CharField()
+    lastname = serializers.CharField()
+    age = serializers.IntegerField()
+
+    class Meta:
+        model = User
+        fields = ('id', 'firstname', 'lastname', 'age')
