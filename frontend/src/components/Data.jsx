@@ -23,8 +23,7 @@ class Data extends Component {
                                     
                                       <h2>  Username  </h2>
                                     
-                                 
-                                    
+                            
                                     {reg.map((r, id) => (
                                        
                                             <h5 key={id}>{r.username}</h5>

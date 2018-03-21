@@ -41,7 +41,7 @@ class Home extends Component {
               :
               alert("Use at least 8 characters.")
           :
-          alert("Password And Confirm Password Are Different") 
+            alert("Password And Confirm Password Are Different") 
 
       
       

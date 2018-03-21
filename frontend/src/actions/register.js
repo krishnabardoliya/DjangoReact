@@ -29,35 +29,12 @@ export const addUser = (username, password, email) => {
                     email
                 })
             })
-    }
-}
-
-
-export const addProfile = (firstname, lastname, age) => {
-    return dispatch => {
-        let headers = { "Content-Type": "application/json" };
-        let body = JSON.stringify({ firstname, lastname, age });
-        console.log("in action",body)
-        return fetch("/api/profile/", { headers, method: "POST", body })
-            .then(res => res.json())
-            .then(note => {
-                return dispatch({
-                    type: 'ADD_PROFILE',
-                    firstname,
-                    lastname,
-                    age
-                })
+            .catch(error => {
+                console.log(error)
             })
-    }    
-    /*
-    return {
-        type: 'ADD_USER',
-        username,
-        password,
-        email
     }
-    */
 }
+
 
 export const fetchUser = () => {
     return dispatch => {
@@ -93,11 +70,55 @@ export const loginUser = (username, password) => {
                 })
             })
             .catch(function (error) {
-                console.log("here",error);
             });
     }
 }
 
 
 
+export const addProfile = (firstname, lastname, age) => {
+    const id = JSON.parse(localStorage.token)
+    console.log(id.id)
+    console.log("in add profile action ",firstname,lastname, age)
+    let headers = { "Content-Type": "application/json" };
+    let body = JSON.stringify({
+        username:id.username,
+        user: id.id, 
+        firstname:firstname, 
+        lastname:lastname, 
+        age:age 
+    });
+    return dispatch => {
+        return fetch("/api/addprofile/", { headers, method: "POST", body })
+            .then(res => res.json())
+            .then(note => {
+                return dispatch({
+                    type: 'ADD_PROFILE',
+                    firstname,
+                    lastname,
+                    age
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
 
+
+
+
+export const fetchProfile = () => {
+    return dispatch => {
+        let headers = { "Content-Type": "application/json" };
+        return fetch("/api/profile/", { headers, })
+            .then(res => res.json())
+            .then(data => {
+                console.log("profile data ",data)
+                return dispatch({
+                    type: 'FETCH_PROFILE',
+                    data
+                })
+            })
+    }
+}

@@ -31,7 +31,7 @@ import jwt
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from rest_framework.decorators import api_view,permission_classes
-
+from django.http import JsonResponse
 
 # Create your views here.
 class Profile(viewsets.ModelViewSet):
@@ -41,11 +41,10 @@ class Profile(viewsets.ModelViewSet):
 
 
 class ProfileP(viewsets.ModelViewSet):
-    print("in views")
     queryset = ProfileModel.objects.all()
     permission_classes = [permissions.AllowAny, ]
     serializer_class = ProfileSerializer
-
+    
 
 @api_view(["POST"])
 @permission_classes((permissions.AllowAny,))
@@ -60,20 +59,59 @@ def login(request):
         if user:
             auth_login(request, user)
             if request.user.is_authenticated:
-                #print(request.user.email)
-                return HttpResponse({'status':'true','message':'login successfull'}, status=200)
+                print("id",request.user.id)
+                a = User.objects.get(id=request.user.id)
+                cd = {
+                        "id":a.id,
+                        "username":a.username,
+                        "password":a.password,
+                        "email":a.email
+                    }
+                return JsonResponse(cd, status=200)
     return HttpResponse({'status':'false','message':'fail login'}, status=400)
 
 
-'''@api_view(["GET"])
+
+@api_view(["POST"])
 @permission_classes((permissions.AllowAny,))
 def addprofile(request):
-    print(request.method)
-    print("here")
     if request.method == "POST":
+        print(request.body)
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        print(body)'''
+        first_name = body['firstname']
+        last_name = body['lastname']
+        age = body['age']
+        
+        userr = body['user']
+        username_ = body['username']
+        print(userr)
+        try:
+            a = ProfileModel.objects.get(user_id=userr)
+        except:
+            print("no user")
+            a = None
+        if a:
+            ProfileModel.objects.get(user_id=userr).delete()
+            s = ProfileModel()
+            s.user_id = userr
+            s.firstname = first_name
+            s.lastname = last_name
+            s.username= username_
+            s.age = age
+            s.save()
+        else:
+            s = ProfileModel()
+            s.user_id = userr
+            s.firstname = first_name
+            s.lastname = last_name
+            s.age = age
+            s.username=username_
+            s.save()
+        return HttpResponse({'status':'true'}, status=200)
+    return HttpResponse({'status':'false'}, status=400)
+
+
         
             
     

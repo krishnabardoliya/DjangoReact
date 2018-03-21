@@ -25,10 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    firstname = serializers.CharField()
-    lastname = serializers.CharField()
-    age = serializers.IntegerField()
 
     class Meta:
-        model = User
-        fields = ('id', 'firstname', 'lastname', 'age')
+        model = Profile
+        fields = ("__all__")
