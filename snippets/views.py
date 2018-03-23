@@ -112,7 +112,23 @@ def addprofile(request):
     return HttpResponse({'status':'false'}, status=400)
 
 
-        
+@api_view(["POST"])
+@permission_classes((permissions.AllowAny,))
+def delprofile(request):
+    if request.method == "POST":
+        print(request.body)
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        userr = body['user']
+        try:
+            ProfileModel.objects.get(user_id=userr).delete()
+        except:
+            print("no user")
+        return HttpResponse({'status':'true'}, status=200)    
+            
+
+
             
     
 

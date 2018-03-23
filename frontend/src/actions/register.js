@@ -106,6 +106,23 @@ export const addProfile = (firstname, lastname, age) => {
 }
 
 
+export const delProfile = () => {
+    const id = JSON.parse(localStorage.token)
+    console.log(id.id)
+    
+    let headers = { "Content-Type": "application/json" };
+    let body = JSON.stringify({
+        user: id.id,  
+    });
+    return dispatch => {
+        return fetch("/api/delprofile/", { headers, method: "POST", body })
+            .then(res => {res.json(); window.location.href="/profile"})
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
 
 
 export const fetchProfile = () => {
