@@ -29,17 +29,27 @@ class Profile extends Component {
         firstname: "",
         lastname: "",
         age: "",
-        checked:true,
+        option1: false,
+        option2: false,
+        gender: "male"
     }
 
     
 
     componentDidMount() {
         this.props.fetchProfile();
+        const token = localStorage.token
+        if(token){
         console.log("in did")
         console.log("token",JSON.parse(localStorage.token)['username'])
         console.log("this.props.reg",this.props.regs)
         console.log("-----------------------------------------------------------")
+        }
+        else{
+            window.location.href="/login"
+        }
+             
+        
         }
         
     
@@ -48,7 +58,7 @@ class Profile extends Component {
         e.preventDefault();
         console.log("handleSubmit ma");
         console.log(this.state.firstname,this.state.lastname,this.state.age)
-        this.props.addProfile(this.state.firstname,this.state.lastname,this.state.age);
+        this.props.addProfile(this.state.firstname,this.state.lastname,this.state.age,this.state.option1,this.state.option2,this.state.gender);
         console.log("token",JSON.parse(localStorage.token)['username'])
         
     }
@@ -77,6 +87,8 @@ class Profile extends Component {
         
         console.log("in render")
         const token = localStorage.token
+        if(token)
+        {
         const token1 = JSON.parse(localStorage.token)['username']
         console.log("token final",token1)
         const regs = this.props.regs
@@ -93,12 +105,16 @@ class Profile extends Component {
                     this.state.open ?
                     null
                     :
-                    this.setState({ firstname: k.firstname , lastname:k.lastname, age:k.age ,checked:true,open:true})
+                    this.setState({ firstname: k.firstname , lastname:k.lastname, age:k.age ,option1:k.option1, option2:k.option2, gender: k.gender, open:true})
                 :
                     null
                 
             )
-        )   
+        )
+    }
+    else{
+        window.location.href="/login"
+    }   
         
         
         return(
@@ -145,25 +161,36 @@ class Profile extends Component {
 
                             <br />
                             <h2>check box</h2>
-                        <Checkbox   
+                                    <Checkbox   
                                     checkedIcon={<ActionFavorite />}
                                     uncheckedIcon={<ActionFavoriteBorder />}
-                                    checked={this.state.checked}
+                                    checked={this.state.option1}
                                     //checked='false'
                                     //onCheck={this.updateCheck.bind(this)}
-                                    onCheck={(e) => this.setState({ checked: !this.state.checked })}
-                                    label="check this"
+                                    onCheck={(e) => this.setState({ option1: !this.state.option1 })}
+                                    label="option1 "
                                     style={styles.checkbox}
                                     />
-                                    <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+
+                                    <Checkbox   
+                                    checkedIcon={<ActionFavorite />}
+                                    uncheckedIcon={<ActionFavoriteBorder />}
+                                    checked={this.state.option2}
+                                    //checked='false'
+                                    //onCheck={this.updateCheck.bind(this)}
+                                    onCheck={(e) => this.setState({ option2: !this.state.option2 })}
+                                    label="option2 "
+                                    style={styles.checkbox}
+                                    />            
+                                    <RadioButtonGroup name="shipSpeed" defaultSelected={this.state.gender} onChange={(e,value) => this.setState({ gender: e.target.value })}>
                                     <RadioButton
-                                        value="light"
-                                        label="Simple"
+                                        value="male"
+                                        label="male"
                                         style={styles.radioButton}
                                     />
                                     <RadioButton
-                                        value="not_light"
-                                        label="Selected by default"
+                                        value="female"
+                                        label="female"
                                         style={styles.radioButton}
                                     />
                                     
@@ -194,9 +221,9 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-        addProfile: (firstname, lastname, age) => {
+        addProfile: (firstname, lastname, age, option1, option2, gender) => {
             console.log("in mapdispatchtoprops")
-            dispatch(register.addProfile(firstname, lastname, age));
+            dispatch(register.addProfile(firstname, lastname, age, option1, option2, gender));
           
         },
         fetchProfile: () => {

@@ -8,7 +8,10 @@ class Profile(models.Model):
     username = models.TextField(blank=False)
     firstname = models.TextField(blank=False)
     lastname = models.TextField(blank=False)
-    age = models.PositiveIntegerField(default=1,blank=False) 
+    age = models.PositiveIntegerField(default=1,blank=False)
+    option1 = models.BooleanField(default=False)
+    option2 = models.BooleanField(default=False)
+    gender = models.TextField(blank=False)
     class Meta:
         verbose_name_plural = 'Profile'
 

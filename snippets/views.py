@@ -82,7 +82,9 @@ def addprofile(request):
         first_name = body['firstname']
         last_name = body['lastname']
         age = body['age']
-        
+        option1=body['option1']
+        option2=body['option2']
+        gender=body['gender']
         userr = body['user']
         username_ = body['username']
         print(userr)
@@ -99,6 +101,9 @@ def addprofile(request):
             s.lastname = last_name
             s.username= username_
             s.age = age
+            s.option1=option1
+            s.option2=option2
+            s.gender=gender
             s.save()
         else:
             s = ProfileModel()
@@ -107,6 +112,9 @@ def addprofile(request):
             s.lastname = last_name
             s.age = age
             s.username=username_
+            s.option1=option1
+            s.option2=option2
+            s.gender=gender
             s.save()
         return HttpResponse({'status':'true'}, status=200)
     return HttpResponse({'status':'false'}, status=400)

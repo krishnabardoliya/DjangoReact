@@ -76,17 +76,20 @@ export const loginUser = (username, password) => {
 
 
 
-export const addProfile = (firstname, lastname, age) => {
+export const addProfile = (firstname, lastname, age,option1,option2,gender) => {
     const id = JSON.parse(localStorage.token)
     console.log(id.id)
-    console.log("in add profile action ",firstname,lastname, age)
+    console.log("in add profile action ",firstname,lastname, age,option1,option2,gender)
     let headers = { "Content-Type": "application/json" };
     let body = JSON.stringify({
         username:id.username,
         user: id.id, 
         firstname:firstname, 
         lastname:lastname, 
-        age:age 
+        age:age,
+        option1:option1,
+        option2:option2,
+        gender:gender 
     });
     return dispatch => {
         return fetch("/api/addprofile/", { headers, method: "POST", body })

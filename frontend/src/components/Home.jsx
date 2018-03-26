@@ -32,7 +32,7 @@ class Home extends Component {
             }
         }
       
-      console.log("index0",this.props.regs[0][1]['username'])
+      //console.log("index0",this.props.regs[0][1]['username'])
       
       
       this.state.password === this.state.cnfpassword ?

@@ -9,6 +9,8 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from "redux-thunk";
 import name from './reducers';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const store = createStore(name, applyMiddleware(thunk));
 

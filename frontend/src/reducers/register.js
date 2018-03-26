@@ -16,7 +16,7 @@ export default function reg(state = initialState, action) {
             return [...state, { 'username': action.username, 'password': action.password, 'email': action.email }];
         case 'ADD_PROFILE':
             console.log("reducer addprofile")
-            return [...state, { 'firstname': action.firstname, 'lastname': action.lastname, 'age': action.age }];
+            return [...state, { 'firstname': action.firstname, 'lastname': action.lastname, 'age': action.age, 'option1': action.option1, 'option2': action.option2, 'gender':action.gender }];
             window.location.href="/profile"
                
         case 'LOGIN_USER':
