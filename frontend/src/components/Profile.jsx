@@ -9,13 +9,26 @@ import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import { Table } from 'react-bootstrap';
 
+var divStyle = {
+    background: "#e2eef6",
+    padding: "20px",
+    margin: "20px",
+    margin_left:"100px",
+    fontSize:"15px",
+  };
+  
+  
 const styles = {
+   
+    
     block: {
       maxWidth: 250,
     },
     checkbox: {
       marginBottom: 16,
+      
     },
   };
 
@@ -31,13 +44,14 @@ class Profile extends Component {
         age: "",
         option1: false,
         option2: false,
-        gender: "male"
+        gender: ""
     }
 
     
 
     componentDidMount() {
         this.props.fetchProfile();
+        //this.props.register();
         const token = localStorage.token
         if(token){
         console.log("in did")
@@ -56,8 +70,8 @@ class Profile extends Component {
 
     handleSubmit=(e) => {
         e.preventDefault();
-        console.log("handleSubmit ma");
-        console.log(this.state.firstname,this.state.lastname,this.state.age)
+        console.log("in handleSubmit-------------");
+        console.log(this.state.firstname,this.state.lastname,this.state.age,this.state.gender)
         this.props.addProfile(this.state.firstname,this.state.lastname,this.state.age,this.state.option1,this.state.option2,this.state.gender);
         console.log("token",JSON.parse(localStorage.token)['username'])
         
@@ -65,23 +79,10 @@ class Profile extends Component {
 
     del= (e) => {
         e.preventDefault();
-        /*const id = JSON.parse(localStorage.token)
-        console.log(id)
-        
-        let headers = { "Content-Type": "application/json" };
-        let body = JSON.stringify({
-            user: id.id,  
-        });
-        fetch("/api/delprofile/", { headers, method: "POST", body })
-            .then(res => res.json())
-            .catch(error => {
-                console.log(error)
-            })
-        window.alert("this profile will be deleted");*/
         this.props.delProfile();
     }
     
-   
+    
 
     render() {
         
@@ -94,73 +95,98 @@ class Profile extends Component {
         const regs = this.props.regs
         console.log("data final",regs)
         console.log("len",regs.length)
-
-
-
-        
-        
+/*
         regs.map((r,id)=> 
                 r.map((k)=>
                 (token1==k.username) ?
                     this.state.open ?
                     null
                     :
+                    (
+                    console.log("gender is",k.gender),
                     this.setState({ firstname: k.firstname , lastname:k.lastname, age:k.age ,option1:k.option1, option2:k.option2, gender: k.gender, open:true})
-                :
+                    )
+                    :
                     null
                 
-            )
-        )
-    }
-    else{
-        window.location.href="/login"
-    }   
-        
+                    )
+                    )
+        }
+        else{
+            window.location.href="/login"
+        }   
+ */       
+
+        regs.map((r,id)=> 
+                this.state.open ? null :
+                    this.setState({ firstname: r.firstname , lastname:r.lastname, age:r.age ,option1:r.option1, option2:r.option2, gender: r.gender, open:true})
+                    )
+        }
+        else{
+            window.location.href="/login"
+        }   
         
         return(
-            <div className="container">
+            <div className="row panel" >
+               
+                
             {token ?   
-            <div>
+            <div className="col-sm-4" style={divStyle}>
             
-            <h1>Your profile</h1>    
+              
             <form onSubmit={this.handleSubmit} method="post">
+            <Table>
+                <tbody>
+                    <tr>
                         <div className="form-group">
                         
-                            <label>First Name</label>
+                        <td>    <label>First Name</label>    </td>
+
+                        <td></td>
                            
-                            <input
+                        <td>    <input
                                 name="firstname"
                                 type="text"
                                 required="required"
                                 value={this.state.firstname}
                                 onChange={(e) => this.setState({ firstname: e.target.value })} />
+                        </td>
+
                         </div>
+                    </tr> 
+                    <tr>
+                           
                         
                         <div className="form-group">
-                            <label>lastname</label>
-                            
+                        <td>    <label>lastname</label>   </td>
+                        <td>    
                             <input
                                 name="lastname"
                                 type="text"
                                 required="required"
                                 value={this.state.lastname}
                                 onChange={(e) => this.setState({ lastname: e.target.value })} />
+                        </td>        
                         </div>
+                     </tr>
+                     <tr>   
 
                         <div className="form-group">
-                            <label>age</label>
-                            
+                        <td>     <label>age</label>  </td>
+                        <td>    
                             <input
                                 name="age"
                                 type="number"
                                 required="required"
                                 value={this.state.age}
                                 onChange={(e) => this.setState({ age: e.target.value })} />
-                                
+                        </td>        
                         </div>
+                    </tr>    
 
                             <br />
-                            <h2>check box</h2>
+                            
+                            <div className="form-group">
                                     <Checkbox   
                                     checkedIcon={<ActionFavorite />}
                                     uncheckedIcon={<ActionFavoriteBorder />}
@@ -171,7 +197,8 @@ class Profile extends Component {
                                     label="option1 "
                                     style={styles.checkbox}
                                     />
-
+                            </div>
+                            <div className="form-group">
                                     <Checkbox   
                                     checkedIcon={<ActionFavorite />}
                                     uncheckedIcon={<ActionFavoriteBorder />}
@@ -181,30 +208,42 @@ class Profile extends Component {
                                     onCheck={(e) => this.setState({ option2: !this.state.option2 })}
                                     label="option2 "
                                     style={styles.checkbox}
-                                    />            
-                                    <RadioButtonGroup name="shipSpeed" defaultSelected={this.state.gender} onChange={(e,value) => this.setState({ gender: e.target.value })}>
-                                    <RadioButton
-                                        value="male"
-                                        label="male"
-                                        style={styles.radioButton}
-                                    />
-                                    <RadioButton
-                                        value="female"
-                                        label="female"
-                                        style={styles.radioButton}
-                                    />
+                                    />  
+                            </div>
+                                            
+                            <div className="form-group">
+                                    {this.state.gender && 
+                                        <RadioButtonGroup name="shipSpeed" defaultSelected={this.state.gender} onChange={(e,value) => this.setState({ gender: e.target.value })}>
+                                        <RadioButton
+                                            value="male"
+                                            label="male"
+                                            style={styles.radioButton}
+                                        />
+                                        <RadioButton
+                                            value="female"
+                                            label="female"
+                                            style={styles.radioButton}
+                                        />
+                                        
+                                        </RadioButtonGroup>
+                                    }   
+                             </div>                                        
                                     
-                                    </RadioButtonGroup>   
-                                                                     
-  
+
                         <button className="btn btn-success" type="submit" value="Submit">Submit</button> <p>    </p>
                         <button className="btn btn-warning" onClick={this.del} >Delete</button>
+                    </tbody>
+                    </Table>    
                     </form>
+
             </div>
+            
             :
             <Redirect to="/login" /> 
             }   
-            </div>    
+            
+            </div>
+               
         );
 
     }
@@ -214,6 +253,7 @@ class Profile extends Component {
 
 
 const mapStateToProps = state => {
+    console.log("mapStateToProps",state)
     return {
         regs: state.reg,
     }
@@ -226,11 +266,14 @@ const mapStateToProps = state => {
             dispatch(register.addProfile(firstname, lastname, age, option1, option2, gender));
           
         },
-        fetchProfile: () => {
-            dispatch(register.fetchProfile());
+        register: () => {
+            dispatch(register.register());
         },
         delProfile: () => {
             dispatch(register.delProfile());
+        },
+        fetchProfile: () => {
+            dispatch(register.fetchProfile());
         },
         
         

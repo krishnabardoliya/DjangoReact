@@ -1,4 +1,5 @@
 import { ADD_NAME } from '../constants';
+import { Redirect } from 'react-router';
 
 var axios = require('axios')
 var axiosDefaults = require("axios/lib/defaults");
@@ -99,7 +100,10 @@ export const addProfile = (firstname, lastname, age,option1,option2,gender) => {
                     type: 'ADD_PROFILE',
                     firstname,
                     lastname,
-                    age
+                    age,
+                    option1,
+                    option2,
+                    gender
                 })
             })
             .catch(error => {
@@ -128,10 +132,14 @@ export const delProfile = () => {
 
 
 
-export const fetchProfile = () => {
+export const fetchProfile = () => {  
+    const id = JSON.parse(localStorage.token)    
     return dispatch => {
         let headers = { "Content-Type": "application/json" };
-        return fetch("/api/profile/", { headers, })
+        let body = JSON.stringify({
+            user: id.id,  
+        });
+        return fetch("/api/fetchprofile/", { headers, method: "POST", body })
             .then(res => res.json())
             .then(data => {
                 console.log("profile data ",data)
@@ -141,4 +149,6 @@ export const fetchProfile = () => {
                 })
             })
     }
+
+
 }

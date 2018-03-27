@@ -136,7 +136,53 @@ def delprofile(request):
         return HttpResponse({'status':'true'}, status=200)    
             
 
+# fetch profile
 
+@api_view(["POST"])
+@permission_classes((permissions.AllowAny,))
+def list_(request):
+    if request.method == "POST":
+        print("in list__")
+        print(request.body)
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        userr = body['user']
+        print(userr)
+        try:
+            a=ProfileModel.objects.get(user_id=userr)
+            print(a.username)
+            print(a.lastname)
+
+        except:
+            a=None
+            print("no user")
+        if a:
+            cd = {"firstname":a.firstname, "lastname":a.lastname, "age":a.age ,"option1":a.option1,"option2":a.option2,"gender":a.gender}
+            return JsonResponse(cd, status=200)
+        else:
+            return HttpResponse({'status':'true'}, status=404)
+    return HttpResponse({'status':'false'}, status=400) 
+
+
+
+'''
+    if request.method == "POST":
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        user = body['user']
+        print("----------------------------------",user,"-------------------------------------")
+        try:
+            a = UserProfile.objects.get(user_id=user)
+        except:
+            print("no user")
+            a = None
+        if a:
+            cd = {"firstname":a.first_name, "lastname":a.last_name, "age":a.age}
+            return JsonResponse(cd, status=200)
+        else:
+            return HttpResponse({'status':'true'}, status=404)
+    return HttpResponse({'status':'false'}, status=400)
             
     
-
+'''

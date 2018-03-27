@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { register } from '../actions';
-//import { Redirect } from 'react-router';
+import { Redirect } from 'react-router';
 class Login extends Component {
 
     constructor(props) {
@@ -29,7 +29,7 @@ class Login extends Component {
               
             {token ?
                 <div>
-                    <h1>Logged in</h1>
+                    <Redirect to="/profile" />
                     
                     
                 </div>
