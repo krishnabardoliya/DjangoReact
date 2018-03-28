@@ -3,7 +3,6 @@ const initialState = [];
 
 export default function reg(state = initialState, action) {
     let name=null;
-    console.log("reducer ma cghe")
     console.log(action.type)
     switch (action.type) {
         case ADD_NAME:
@@ -13,15 +12,13 @@ export default function reg(state = initialState, action) {
         case 'FETCH_USER':
             return [...state, action.data ]
         case 'FETCH_PROFILE':
-        console.log('FETCH_PROFILE mave che');
-        console.log(action.data)
-        
+            console.log("profile fetch",action.data)
             return [...state, action.data ]    
         case 'ADD_USER':
             return [...state, { 'username': action.username, 'password': action.password, 'email': action.email }];
         case 'ADD_PROFILE':
-            console.log("reducer addprofile")
-            return [...state, { 'firstname': action.firstname, 'lastname': action.lastname, 'age': action.age, 'option1': action.option1, 'option2': action.option2, 'gender':action.gender }];
+            console.log(action.values)
+            return [...state, action.values];
             window.location.href="/profile"
                
         case 'LOGIN_USER':

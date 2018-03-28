@@ -77,33 +77,21 @@ export const loginUser = (username, password) => {
 
 
 
-export const addProfile = (firstname, lastname, age,option1,option2,gender) => {
+export const addProfile = (values) => {
     const id = JSON.parse(localStorage.token)
-    console.log(id.id)
-    console.log("in add profile action ",firstname,lastname, age,option1,option2,gender)
+    values.user = id.id
+    values.username = id.username
+    console.log("in action",values)
+    let body = JSON.stringify(values);
     let headers = { "Content-Type": "application/json" };
-    let body = JSON.stringify({
-        username:id.username,
-        user: id.id, 
-        firstname:firstname, 
-        lastname:lastname, 
-        age:age,
-        option1:option1,
-        option2:option2,
-        gender:gender 
-    });
     return dispatch => {
         return fetch("/api/addprofile/", { headers, method: "POST", body })
             .then(res => res.json())
             .then(note => {
+                console.log(note)
                 return dispatch({
                     type: 'ADD_PROFILE',
-                    firstname,
-                    lastname,
-                    age,
-                    option1,
-                    option2,
-                    gender
+                    values
                 })
             })
             .catch(error => {
@@ -142,7 +130,9 @@ export const fetchProfile = () => {
         return fetch("/api/fetchprofile/", { headers, method: "POST", body })
             .then(res => res.json())
             .then(data => {
-                console.log("profile data ",data)
+                data.colorp=String(data.colorp)
+                data.date=new Date(data.date)
+                console.log("date after action ",data.date,data.colorp)
                 return dispatch({
                     type: 'FETCH_PROFILE',
                     data

@@ -6,6 +6,20 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import DatePicker from 'material-ui/DatePicker';
+import ColorPicker from 'material-ui-color-picker'
+
+var divStyle = {
+  background: "#e2eef6",
+  padding: "20px",
+  margin: "20px",
+  margin_left:"100px",
+  fontSize:"15px",
+};
+
+var Try ={
+  Color:"black",
+};
 
 
 const validate = values => {
@@ -14,10 +28,6 @@ const validate = values => {
       'firstName',
       'lastName',
       'Age',
-      'sex',
-      'option1',
-      'option2',
-      'Color',
     ]
     requiredFields.forEach(field => {
       if (!values[field]) {
@@ -45,8 +55,11 @@ const validate = values => {
       errorText={touched && error}
       {...input}
       {...custom}
+      onChange={(event, value) => input.onChange(value)}
     />
   )
+
+  
   
   const renderCheckbox = ({ input, label }) => (
     <Checkbox
@@ -56,15 +69,78 @@ const validate = values => {
     />
   )
   
+
+
   const renderRadioGroup = ({ input, ...rest }) => (
     <RadioButtonGroup
       {...input}
       {...rest}
       valueSelected={input.value}
-      onChange={(event, value) => input.onChange(value)}
+      
     />
   )
   
+
+  const ColorPickerInput = ({
+    id,
+    disabled,
+    label,
+    name,
+    input: {
+      value,
+      onChange
+    }
+  }) => (
+    <ColorPicker
+      id={id}
+      disabled={disabled}
+      floatingLabelText={label}
+      name={name}
+      value={value}
+      defaultValue={value}
+      onChange={onChange}
+    />
+  )
+
+  
+
+
+  const renderColorPicker = ({
+    input,
+    label,
+    meta: { touched, error },
+    ...custom
+  }) => (
+    <ColorPicker
+      hintText={label}
+      floatingLabelText={label}
+      errorText={touched && error}
+      {...input}
+      {...custom}
+      onChange={(event, value) => input.onChange(value)}
+    />
+  )
+
+  
+
+
+  const renderDatePicker = ({
+    input,
+    label,
+    meta: { touched, error },
+    ...custom
+  }) => (
+    <DatePicker
+      errorText={touched && error}
+      {...input}
+      {...custom}
+      onChange={(event, value) => input.onChange(value)}
+    />
+  )
+
+ 
+
+
   const renderSelectField = ({
     input,
     label,
@@ -85,7 +161,7 @@ const validate = values => {
   const MaterialUiForm = props => {
     const { handleSubmit, pristine, reset, submitting } = props
     return (
-      <div className="jumbotron"> 
+      <div className="jumbotron col-sm-4" style={divStyle}> 
       <form onSubmit={handleSubmit}>
         <div>
           <Field
@@ -101,7 +177,7 @@ const validate = values => {
           <Field name="Age" type="number" component={renderTextField} label="Age" />
         </div>
         <div>
-          <Field name="sex" component={renderRadioGroup}>
+          <Field name="gender" component={renderRadioGroup}>
             <RadioButton value="male" label="male" />
             <RadioButton value="female" label="female" />
           </Field>
@@ -112,24 +188,25 @@ const validate = values => {
         <div>
           <Field name="option2" component={renderCheckbox} label="option2" />
         </div>
-        <div>
+        <Field name="date" component={renderDatePicker} hintText="Date"/>
+        
         <Field
-          name="Color"
+          name="color"
           component={renderSelectField}
-          label="Favorite Color"
+          label="Color"
         >
-          <MenuItem value="ff0000" primaryText="Red" />
-          <MenuItem value="00ff00" primaryText="Green" />
-          <MenuItem value="0000ff" primaryText="Blue" />
+          <MenuItem value="red" primaryText="Red" />
+          <MenuItem value="green" primaryText="Green" />
+          <MenuItem value="blue" primaryText="Blue" />
         </Field>
-      </div>
+        <Field name="colorp" component={ColorPickerInput} label="colorp" >
+        </Field>
+
         <div>
           <button type="submit" disabled={pristine || submitting}>
             Submit
           </button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>
-            Clear Values
-          </button>
+          
         </div>
       </form>
       </div>

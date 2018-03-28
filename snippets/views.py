@@ -76,17 +76,37 @@ def login(request):
 @permission_classes((permissions.AllowAny,))
 def addprofile(request):
     if request.method == "POST":
-        print(request.body)
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        first_name = body['firstname']
-        last_name = body['lastname']
-        age = body['age']
-        option1=body['option1']
-        option2=body['option2']
-        gender=body['gender']
-        userr = body['user']
-        username_ = body['username']
+        print(body)
+        option1=False
+        option2=False
+        gender=None
+        date=None
+        color=None
+        colorp=None
+
+        for key, value in body.items():
+            if key=='firstName':
+                first_name = body['firstName']
+            if key=='lastName':     
+                last_name = body['lastName']
+            if key=='Age':         
+                age = body['Age']
+            userr = body['user']
+            username_ = body['username']
+            if key=='gender':  
+                gender=body['gender']
+            if key=='option1':     
+                option1=body['option1']
+            if key=='option2':     
+                option2=body['option2']
+            if key=='date':     
+                date=body['date'] 
+            if key=='color':     
+                color=body['color']
+            if key=='colorp':    
+                colorp=body['colorp']            
         print(userr)
         try:
             a = ProfileModel.objects.get(user_id=userr)
@@ -101,9 +121,18 @@ def addprofile(request):
             s.lastname = last_name
             s.username= username_
             s.age = age
-            s.option1=option1
-            s.option2=option2
-            s.gender=gender
+            if option1:
+                s.option1=option1
+            if option2:    
+                s.option2=option2
+            if gender:    
+                s.gender=gender
+            if color:    
+                s.color=color 
+            if date:    
+                s.date=date
+            if colorp:    
+                s.colorp=colorp        
             s.save()
         else:
             s = ProfileModel()
@@ -112,9 +141,18 @@ def addprofile(request):
             s.lastname = last_name
             s.age = age
             s.username=username_
-            s.option1=option1
-            s.option2=option2
-            s.gender=gender
+            if option1:
+                s.option1=option1
+            if option2:    
+                s.option2=option2
+            if gender:    
+                s.gender=gender
+            if color:    
+                s.color=color
+            if date:    
+                s.date=date
+            if colorp:    
+                s.colorp=colorp              
             s.save()
         return HttpResponse({'status':'true'}, status=200)
     return HttpResponse({'status':'false'}, status=400)
@@ -158,31 +196,9 @@ def list_(request):
             a=None
             print("no user")
         if a:
-            cd = {"firstname":a.firstname, "lastname":a.lastname, "age":a.age ,"option1":a.option1,"option2":a.option2,"gender":a.gender}
+            cd = {"firstName":a.firstname, "lastName":a.lastname, "Age":a.age ,"option1":a.option1,"option2":a.option2,"gender":a.gender,"color":a.color,"date":a.date,"colorp":a.colorp}
+            print(cd)
             return JsonResponse(cd, status=200)
         else:
             return HttpResponse({'status':'true'}, status=404)
     return HttpResponse({'status':'false'}, status=400) 
-
-
-
-'''
-    if request.method == "POST":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        user = body['user']
-        print("----------------------------------",user,"-------------------------------------")
-        try:
-            a = UserProfile.objects.get(user_id=user)
-        except:
-            print("no user")
-            a = None
-        if a:
-            cd = {"firstname":a.first_name, "lastname":a.last_name, "age":a.age}
-            return JsonResponse(cd, status=200)
-        else:
-            return HttpResponse({'status':'true'}, status=404)
-    return HttpResponse({'status':'false'}, status=400)
-            
-    
-'''

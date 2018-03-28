@@ -10,11 +10,17 @@ class ProfileRedux extends React.Component {
         console.log("values", values)
         this.props.addProfile(values)
       }
+
+    componentDidMount() {
+        this.props.fetchProfile();
+    }  
+
     render() {
+        const {regs} = this.props
     
     return (
         <div className="container">
-        <ContactForm onSubmit={this.submit} />
+        <ContactForm initialValues={regs[0]} onSubmit={this.submit} />
         </div>
     )
 
@@ -22,4 +28,25 @@ class ProfileRedux extends React.Component {
 
 }
 
-export default (ProfileRedux);
+const mapStateToProps = state => {
+    console.log("mapStateToProps",state)
+    return {
+        regs: state.reg,
+    }
+  }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addProfile: (values) => {
+            dispatch(register.addProfile(values));
+        },
+        fetchProfile:() => {
+            dispatch(register.fetchProfile());
+        }
+        
+    }
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileRedux);

@@ -499,8 +499,8 @@ class Profile extends Component {
                             
                             <div className="form-group">
                                     <Checkbox   
-                                    checkedIcon={<ActionFavorite />}
-                                    uncheckedIcon={<ActionFavoriteBorder />}
+                                    //checkedIcon={<ActionFavorite />}
+                                    //uncheckedIcon={<ActionFavoriteBorder />}
                                     checked={this.state.option1}
                                     //checked='false'
                                     //onCheck={this.updateCheck.bind(this)}
@@ -511,8 +511,8 @@ class Profile extends Component {
                             </div>
                             <div className="form-group">
                                     <Checkbox   
-                                    checkedIcon={<ActionFavorite />}
-                                    uncheckedIcon={<ActionFavoriteBorder />}
+                                    //checkedIcon={<ActionFavorite />}
+                                    //uncheckedIcon={<ActionFavoriteBorder />}
                                     checked={this.state.option2}
                                     //checked='false'
                                     //onCheck={this.updateCheck.bind(this)}

@@ -13,6 +13,7 @@ class Profile(models.Model):
     option2 = models.BooleanField(default=False)
     gender = models.TextField(blank=False)
     color = models.TextField(blank=False)
+    colorp = models.TextField(blank=False)
     date = models.DateTimeField(blank=True, null=True)
     class Meta:
         verbose_name_plural = 'Profile'
