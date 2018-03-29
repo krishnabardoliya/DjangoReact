@@ -14,8 +14,8 @@ urlpatterns = [
     
     url("^", include(router.urls)),
     url(r'^fetchprofile/', list_ ),
-    url(r'^login/', login ),
+    url(r'^login/', login, name="login" ),
     url(r'^addprofile/', addprofile ),
     url(r'^delprofile/', delprofile ),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
+    url(r'^logout/$', auth_views.logout,  name='logout'),
 ]

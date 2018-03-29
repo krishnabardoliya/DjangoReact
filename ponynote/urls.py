@@ -22,9 +22,11 @@ from rest_framework.schemas import get_schema_view
 
 urlpatterns = [
    
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^api/', include(endpoints)),
     url(r'^', TemplateView.as_view(template_name="index.html")),
     url(r'^admin/', admin.site.urls),
+    
     
 ]

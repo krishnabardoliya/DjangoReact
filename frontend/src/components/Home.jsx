@@ -121,6 +121,7 @@ class Home extends Component {
                       </form>
                   </div>
               }
+              <a href="http://127.0.0.1:8000/oauth/login/github/">git hub login</a>
           </div>
       );
   }
@@ -148,3 +149,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Home);
+
+
+
+
+
