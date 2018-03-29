@@ -45,6 +45,47 @@ class ProfileP(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny, ]
     serializer_class = ProfileSerializer
     
+'''
+@api_view(["POST"])
+@permission_classes((permissions.AllowAny,))
+def login(request):
+    #print("in login")
+    print(request.method)
+    if request.method == "POST":
+        print("in login")
+        if request.user.is_authenticated():
+            a = User.objects.get(id=request.user.id)
+            cd = {
+                "id":a.id,
+                "username":a.username,
+                "password":a.password,
+                "email":a.email
+            }
+            print(cd)
+            #auth_login(request, user)
+            return JsonResponse(cd, status=200)
+        else:    
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            username = body['username']
+            password = body['password']
+            user = authenticate(username=username, password=password)
+            if user:
+                auth_login(request, user)
+                if request.user.is_authenticated:
+                    print("id",request.user.id)
+                    a = User.objects.get(id=request.user.id)
+                    cd = {
+                            "id":a.id,
+                            "username":a.username,
+                            "password":a.password,
+                            "email":a.email
+                        }
+                    print(cd)    
+                    return JsonResponse(cd, status=200)
+        return HttpResponse({'status':'false','message':'fail login'}, status=400)
+'''
+
 
 @api_view(["POST"])
 @permission_classes((permissions.AllowAny,))
@@ -80,6 +121,8 @@ def login(request):
                         }
                     return JsonResponse(cd, status=200)
         return HttpResponse({'status':'false','message':'fail login'}, status=400)
+
+
 
 
 

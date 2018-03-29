@@ -13,7 +13,9 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    
+    componentDidMount(){
+        this.props.loginUser("","");
+    }
 
     handleSubmit=(e) => {
         e.preventDefault();

@@ -10,6 +10,7 @@ export default class Logout extends Component {
         axiosDefaults.xsrfHeaderName = "X-CSRFToken"
         axios.get('/api/logout/')
         .then(function (response) {
+            localStorage.clear()
             console.log('logout');
         })
         .catch(function (error) {
@@ -18,6 +19,7 @@ export default class Logout extends Component {
         
     }
     render() {
+        localStorage.clear()
         return (
             <Redirect to="/login" />
         );

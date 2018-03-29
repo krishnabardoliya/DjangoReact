@@ -20,7 +20,7 @@ class ProfileRedux extends React.Component {
     
     return (
         <div className="container">
-        <ContactForm initialValues={regs[0]} onSubmit={this.submit} />
+        <ContactForm initialValues={regs[0]} regs={regs[0]} onSubmit={this.submit} />
         </div>
     )
 

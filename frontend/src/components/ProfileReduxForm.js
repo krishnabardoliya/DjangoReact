@@ -79,33 +79,9 @@ const validate = values => {
       
     />
   )
-  
-
-  const ColorPickerInput = ({
-    id,
-    disabled,
-    label,
-    name,
-    input: {
-      value,
-      onChange
-    }
-  }) => (
-    <ColorPicker
-      id={id}
-      disabled={disabled}
-      floatingLabelText={label}
-      name={name}
-      value={value}
-      defaultValue={value}
-      onChange={onChange}
-    />
-  )
-
-  
 
 
-  const renderColorPicker = ({
+  const renderColor = ({
     input,
     label,
     meta: { touched, error },
@@ -113,11 +89,9 @@ const validate = values => {
   }) => (
     <ColorPicker
       hintText={label}
-      floatingLabelText={label}
       errorText={touched && error}
       {...input}
       {...custom}
-      onChange={(event, value) => input.onChange(value)}
     />
   )
 
@@ -159,7 +133,10 @@ const validate = values => {
   )
   
   const MaterialUiForm = props => {
-    const { handleSubmit, pristine, reset, submitting } = props
+    const { handleSubmit, pristine, reset, submitting, regs } = props
+    
+    console.log("===")
+    console.log(typeof(regs))
     return (
       <div className="jumbotron col-sm-4" style={divStyle}> 
       <form onSubmit={handleSubmit}>
@@ -199,7 +176,7 @@ const validate = values => {
           <MenuItem value="green" primaryText="Green" />
           <MenuItem value="blue" primaryText="Blue" />
         </Field>
-        <Field name="colorp" component={ColorPickerInput} label="colorp" >
+        <Field name="colorp" component={renderColor} defaultValue="#" label="colorp" >
         </Field>
 
         <div>

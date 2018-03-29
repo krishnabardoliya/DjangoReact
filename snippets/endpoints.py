@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^login/', login, name="login" ),
     url(r'^addprofile/', addprofile ),
     url(r'^delprofile/', delprofile ),
-    url(r'^logout/$', auth_views.logout,  name='logout'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/logout'} ,name='logout'),
 ]

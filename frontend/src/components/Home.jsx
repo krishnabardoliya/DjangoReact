@@ -5,6 +5,7 @@ import { register } from "../actions";
 import { Redirect } from 'react-router'
 
 class Home extends Component {
+    
 
     componentDidMount() {
         this.props.fetchUser();
@@ -121,7 +122,8 @@ class Home extends Component {
                       </form>
                   </div>
               }
-              <a href="http://127.0.0.1:8000/oauth/login/github/">git hub login</a>
+              <a href="http://127.0.0.1:8000/oauth/login/github/">git hub login</a> <br/>
+              <a href="http://127.0.0.1:8000/oauth/login/instagram/">instagram login</a>
           </div>
       );
   }
