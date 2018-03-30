@@ -10,6 +10,7 @@ import Profile1 from './components/Profile1';
 import ProfileRedux from './components/ProfileRedux';
 import Login from './components/Login';
 import Logout from './components/Logout';
+import Maps from './components/Maps';
 import { Nav,NavItem } from 'react-bootstrap';
 
 
@@ -46,6 +47,9 @@ class App extends Component {
           <NavItem eventKey={2} href="/profileredux" onSelect={this.handleSelect}>
             Profile redux
           </NavItem>
+          <NavItem eventKey={2} href="/maps" onSelect={this.handleSelect}>
+            Maps
+          </NavItem>
           <NavItem eventKey={3} href="/logout" >
             Logout
           </NavItem>
@@ -75,6 +79,7 @@ class App extends Component {
             <Route exect path="/profile" component={Profile}/>
             <Route exect path="/profile1" component={Profile1}/>
             <Route exect path="/profileredux" component={ProfileRedux}/>
+            <Route exect path="/maps" component={Maps}/>
             <Route component={NotFound}/>
           </Switch>
         </BrowserRouter>
